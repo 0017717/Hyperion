@@ -57,6 +57,14 @@ else
     end
 end
 
+if game.PlaceId ~= 17282336195 then
+local PM = RS:WaitForChild('PlayMode')
+local E = PM:WaitForChild('Events')
+local R_V = E:WaitForChild('Vote')
+local R_SC = E:WaitForChild('StageChallenge')
+local R_C = E:WaitForChild('Control')
+end
+
 local codesFileUrl = "https://raw.githubusercontent.com/0017717/Hyperion/main/Resources/Codes.luau"
 local CodesList = {}
 
@@ -117,9 +125,33 @@ local SM = Tabs.Game:CreateDropdown("Selected_Modifier", {
 local AM = Tabs.Game:CreateToggle("Auto_Modifier", {Title = "Auto Select Modifier", Default = false })
 
 task.spawn(function()
-    while task.wait() do
+    while task.wait(1) do
         if Options.Auto_Start.Value then
-           print('normal')
+           R_V:FireServer('Vote1')
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait(1) do
+        if Options.Auto_Retry.Value then
+            R_C:FireServer('RetryVote')
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait(1) do
+        if Options.Auto_Next.Value then
+           R_C:FireServer('NextVote')
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait(1) do
+        if Options.Auto_Modifier.Value then
+           R_SC:FireServer(Options.Selected_Modifier.Value)
         end
     end
 end)
