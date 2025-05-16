@@ -16,7 +16,7 @@ local Window = Library:CreateWindow{
 
 -- Fluent Renewed provides ALL 1544 Lucide 0.469.0 https://lucide.dev/icons/ Icons and ALL 9072 Phosphor 2.1.0 https://phosphoricons.com/ Icons for the tabs, icons are optional
 local Tabs = {
-    Main = Window:CreateTab{
+    Lobby = Window:CreateTab{
         Title = "Lobby",
         Icon = ""
     },
