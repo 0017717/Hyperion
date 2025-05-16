@@ -14,7 +14,6 @@ local Window = Library:CreateWindow{
     MinimizeKey = Enum.KeyCode.RightControl
 }
 
--- Fluent Renewed provides ALL 1544 Lucide 0.469.0 https://lucide.dev/icons/ Icons and ALL 9072 Phosphor 2.1.0 https://phosphoricons.com/ Icons for the tabs, icons are optional
 local Tabs = {
     Lobby = Window:CreateTab{
         Title = "Lobby",
@@ -41,25 +40,13 @@ local Tabs = {
 local plrs = game:GetService('Players')
 local plr = plrs.LocalPlayer
 local char = plr.Character
-local hum = char.Humanoid
+local hum = char and char:FindFirstChildOfClass("Humanoid")
 local RS = game:GetService('ReplicatedStorage')
---//Global Variables
---[[Status = {
-    Lobby = {},
-    Joiner = {},
-    Game = {
-        AS = false,
-        AR = false,
-        AN = false,
-        AM = false,
-    },
-    Macro = {},
-}]]
 
 --//Remotes
 local R_Code
 
-if game.placeId == 17282336195 then
+if game.PlaceId == 17282336195 then
     R_Code = RS:WaitForChild("PlayMode"):WaitForChild("Events"):WaitForChild("Codes")
 else
     if RS:FindFirstChild("PlayMode") and RS.PlayMode:FindFirstChild("Events") and RS.PlayMode.Events:FindFirstChild("Codes") then
@@ -75,7 +62,7 @@ local CodesList = {}
 
 local function GetCodesFromGithub()
     local success, responseBody = pcall(function()
-        return game:HttpGet(codesFileUrl, true)
+        return game:HttpGet(codesFileUrl, true) -- Assuming game:HttpGet is provided by your exploit environment
     end)
     if not success or not responseBody then
         return {}
@@ -99,12 +86,18 @@ Tabs.Lobby:CreateButton{
     Title = "Redeem All Codes",
     Description = "",
     Callback = function()
-        if #CodesList > 0 then
+        if R_Code and #CodesList > 0 then
             for _, codeValue in ipairs(CodesList) do
                 R_Code:InvokeServer(codeValue)
             end
+        else
+            if not R_Code then
+            end
+            if #CodesList == 0 then
+            end
         end
-    end}
+    end
+}
 
 local AS = Tabs.Game:CreateToggle("Auto_Start", {Title = "Auto Start", Default = false })
 local AR = Tabs.Game:CreateToggle("Auto_Retry", {Title = "Auto Retry", Default = false })
@@ -120,16 +113,16 @@ local SM = Tabs.Game:CreateDropdown("Selected_Modifier", {
     Multi = false,
     Default = "Normal",
 })
+
 local AM = Tabs.Game:CreateToggle("Auto_Modifier", {Title = "Auto Select Modifier", Default = false })
 
 task.spawn(function()
     while task.wait() do
-        if Options.AS.Value then
-            print('Normal')
+        if Options.Auto_Start.Value then
+           print('normal')
         end
     end
 end)
-    
 
 
 SaveManager:SetLibrary(Library)
